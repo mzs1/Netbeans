@@ -1,12 +1,13 @@
+
 import java.util.*;
 
-public class HW5 {
+public class L6_10_16 {
     int N; // number of vertices in the graph
     boolean[][] G; // the graph as an adjacency matrix
     // G[i][j] is true if there is an edge from i to j
     int currPos;
 
-    HW5(int size, int loc) {
+    L6_10_16(int size, int loc) {
         N = size;
         currPos = loc;
         setupGraph();
@@ -31,7 +32,7 @@ public class HW5 {
         G[10][11] = G[11][10] = true;
     }
 
-    void HW5() {
+    void L6_10_16() {
         System.out.println("The current location is: " + retCity(currPos) + "\n");
         System.out.println(
                 "Moving to the next destination: \n..[0] manually\n..[1] First In First Out (FIFO)\n..[2] Last In First Out (LIFO)]\n..[3] more connection\n..[4] DFS\n..[5] Breradth First Search\n..[-1] Stop");
@@ -43,22 +44,21 @@ public class HW5 {
             System.out.println("The program's been stopped");
             break;
         case 0:
-            List<Integer> qwe = new ArrayList<Integer>();
+            List<Integer> list = new ArrayList<Integer>();
             for (int i = 0; i < N; i++)
                 if (G[currPos][i] == true)
-                    qwe.add(i);
-            
+                    list.add(i);
             System.out.println("\nChoose one of the following connected cities: ");
-            for (int i = 0; i < qwe.size(); i++)
-                System.out.println("[" + i + "]" + retCity(qwe.get(i)) + "\t");
+            for (int i = 0; i < list.size(); i++)
+                System.out.println("[" + i + "]" + retCity(list.get(i)) + "\t");
             System.out.println("\nInput: ");
             ch = inp.nextInt();
-            if (ch < 0 || ch >= qwe.size()) {
+            if (ch < 0 || ch >= list.size()) {
                 System.out.println("The choice is not correct,try again");
-                HW5();
+                L6_10_16();
             }
-            currPos = qwe.get(ch);
-            HW5();
+            currPos = list.get(ch);
+            L6_10_16();
             break;
         case 1: // FIFO
             String addToQ = "[(Front) ";
@@ -72,7 +72,7 @@ public class HW5 {
             System.out.println(addToQ);
             System.out.println(retCity(Q.peek()) + " is the destination\n");
             currPos = Q.peek();
-            HW5();
+            L6_10_16();
             break;
         case 2: // LIFO
             String addToSta = "";
@@ -87,7 +87,7 @@ public class HW5 {
             addToSta += "top=>]";
             System.out.println(addToSta);
             currPos = sta.peek();
-            HW5();
+            L6_10_16();
             break;
         case 3:
             List<Integer> listC = new ArrayList<Integer>();
@@ -113,7 +113,7 @@ public class HW5 {
             System.out.println("max conntion is = " + retCity(listC.get(citymax)) + " with " + citycount
                     + " conntion\nmoving to " + retCity(listC.get(citymax)));
             currPos = listC.get(citymax);
-            HW5();
+            L6_10_16();
             break;
         case 4: // DFS
             List<Integer> visitedList = new ArrayList<Integer>();
@@ -135,7 +135,7 @@ public class HW5 {
                 visitedList.add(currPos);
             }
             System.out.println("you've reached your goal !!");
-            HW5();
+            L6_10_16();
             break;
         case 5: // BFS
             List<Integer> visitedListQ = new ArrayList<Integer>();
@@ -162,10 +162,10 @@ public class HW5 {
                 queue.remove();
             }
             System.out.println("you reached your Destination");
-            HW5();
+            L6_10_16();
             break;
         } // closing switch block
-    } // closing HW5 function
+    } // closing L6_10_16 function
 
     public static void main(String[] args) {
         int cityChoice;
@@ -180,8 +180,8 @@ public class HW5 {
             System.out.println("Mistake,run the program again");
             System.exit(0);
         }
-        HW5 traGraph = new HW5(12, cityChoice);
-        traGraph.HW5();
+        L6_10_16 traGraph = new L6_10_16(12, cityChoice);
+        traGraph.L6_10_16();
     }
 
     public static String retCity(int i) // the function returns city name, according to its index in V array
