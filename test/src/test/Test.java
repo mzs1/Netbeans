@@ -1,14 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package test;
+import java.util.*;
 
-/**
- *
- * @author MZS
- */
+
 public class Test {
 
     /**
@@ -37,17 +29,27 @@ boolean [][]G = new boolean[12][12];
         G[8][9] = G[9][8] = true;
         G[9][10] = G[10][9] = true;
         G[10][11] = G[11][10] = true;
-        for(int i=0;i<12;i++){
-            for(int j=0;j<12;j++){
-                if(G[i][j]==true){
-                 System.out.print(" |"+G[i][j]+" | ");
+        
+        List<Integer> yoyoList=new ArrayList<Integer>();
+        yoyoList.add(5);
+        yoyoList.add(87);
+        yoyoList.add(25);
 
-                }
-                else
-            System.out.print(" |"+G[i][j]+"| ");
-        }
-                     System.out.println();   
-        }
+        int N=12;
+             int L[] = new int[12];
+            for (int i = 0; i < N; i++) {
+                L[i] = i*3;
+            }
+                  for (int i = 0; i < N; i++) {
+           System.out.println(L[i]);
+            }
+                                L[2] = L[2] > L[3] + 1 ? L[3] + 1 : L[3];
+
+      for (int i = 0; i < N; i++) {
+           System.out.println(L[i]);
+            }
+ 
+        
     }
     
 }

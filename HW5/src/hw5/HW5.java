@@ -1,3 +1,6 @@
+
+// The actual code
+
 import java.util.*;
 
 public class HW5 {
@@ -32,9 +35,9 @@ public class HW5 {
     }
 
     void HW5() {
-        System.out.println("The current location is: " + retCity(currPos) + "\n");
+        System.out.println("\n*** The current location is: " + retCity(currPos) + " ***\n");
         System.out.println(
-                "Moving to the next destination: \n..[0] manually\n..[1] First In First Out (FIFO)\n..[2] Last In First Out (LIFO)]\n..[3] more connection\n..[4] DFS\n..[5] Breradth First Search\n..[-1] Stop");
+                "Moving to the next destination: \n..[0] manually\n..[1] First In First Out (FIFO)\n..[2] Last In First Out (LIFO)]\n..[3] more connection\n..[4] DFS\n..[5] Breaadth First Search\n..[6] DFS with limit\n..[7] DFS Iterative\n..[-1] Stop");
         Scanner inp = new Scanner(System.in);
         int ch = inp.nextInt();
         switch (ch) // The user chooses the way to traverse the graph
@@ -43,21 +46,20 @@ public class HW5 {
             System.out.println("The program's been stopped");
             break;
         case 0:
-            List<Integer> qwe = new ArrayList<Integer>();
+            List<Integer> list = new ArrayList<Integer>();
             for (int i = 0; i < N; i++)
                 if (G[currPos][i] == true)
-                    qwe.add(i);
-            
+                    list.add(i);
             System.out.println("\nChoose one of the following connected cities: ");
-            for (int i = 0; i < qwe.size(); i++)
-                System.out.println("[" + i + "]" + retCity(qwe.get(i)) + "\t");
+            for (int i = 0; i < list.size(); i++)
+                System.out.println("[" + i + "]" + retCity(list.get(i)) + "\t");
             System.out.println("\nInput: ");
             ch = inp.nextInt();
-            if (ch < 0 || ch >= qwe.size()) {
+            if (ch < 0 || ch >= list.size()) {
                 System.out.println("The choice is not correct,try again");
                 HW5();
             }
-            currPos = qwe.get(ch);
+            currPos = list.get(ch);
             HW5();
             break;
         case 1: // FIFO
@@ -118,8 +120,10 @@ public class HW5 {
         case 4: // DFS
             List<Integer> visitedList = new ArrayList<Integer>();
             int goalCity;
+            System.out.println("-------------------");
             for (int i = 0; i < 12; i++)// list of cities
                 System.out.println(retCity(i) + " city[" + i + "]");
+            System.out.println("-------------------");
             System.out.println("choose your goal:");
             goalCity = inp.nextInt();
             Stack<Integer> stack = new Stack<Integer>();
@@ -134,38 +138,132 @@ public class HW5 {
                 System.out.println(retCity(currPos));
                 visitedList.add(currPos);
             }
+            System.out.println("-------------------");
             System.out.println("you've reached your goal !!");
             HW5();
             break;
-        case 5: // BFS
+        case 5: // BFS ==============================================================
             List<Integer> visitedListQ = new ArrayList<Integer>();
-             int i = 0;
-            while (i < 12){
+            System.out.println("-------------------");
+            for (int i = 0; i < 12; i++)
                 System.out.println(retCity(i) + " city[" + i + "]");
-                i++;
-            }
-            System.out.println("choose the destination");
+            System.out.println("-------------------");
+            System.out.println("choose your goal:");
             goalCity = inp.nextInt();
             Queue<Integer> queue = new LinkedList<Integer>();
             visitedListQ.add(currPos);
             while (goalCity != currPos) {
-                for ( i = 0; i < N; i++) {
+                for (int i = 0; i < N; i++) {
                     if (G[currPos][i] == true && !visitedListQ.contains(i)) {
                         queue.add(i);
                     }
                 }
                 currPos = queue.peek();
-                if(!visitedListQ.contains(currPos)){
+                if (!visitedListQ.contains(currPos)) {
                     System.out.println(retCity(currPos));
                     visitedListQ.add(currPos);
                 }
                 queue.remove();
             }
-            System.out.println("you reached your Destination");
+            System.out.println("-------------------");
+            System.out.println("you've reached your goal !!");
+            HW5();
+            break;
+        case 6: // DFS with limits LDFS =============================================
+            List<Integer> visitedListL = new ArrayList<Integer>();
+            int limit = 0;
+            System.out.println("Enter Limit: ");
+            limit = inp.nextInt();
+            int L[] = new int[12];
+            for (int i = 0; i < N; i++) {
+                L[i] = N;
+            }
+            System.out.println("-------------------");
+            for (int i = 0; i < 12; i++)// list of cities
+                System.out.println(retCity(i) + " city[" + i + "]");
+            System.out.println("-------------------");
+            System.out.println("choose your goal:");
+            goalCity = inp.nextInt();
+            Stack<Integer> stackL = new Stack<Integer>();
+            visitedListL.add(currPos);
+            L[currPos] = 0;
+            stackL.push(currPos);
+            while (!stackL.empty()) {
+                if (goalCity == currPos) {
+                    System.out.println("-------------------");
+                    System.out.println("you've reached your goal !!");
+                    break;
+                }
+                currPos = stackL.pop();
+                System.out.println(retCity(currPos) + " lvl = " + L[currPos]);
+                visitedListL.add(currPos);
+                for (int i = 0; i < N; i++) {
+                    if (G[currPos][i] == true && !visitedListL.contains(i) && L[currPos] + 1 <= limit) {
+                        stackL.push(i);
+                        L[i] = L[i] > L[currPos] + 1 ? L[currPos] + 1 : L[i];
+                    }
+                }
+            }
+            HW5();
+            break;
+        case 7: // DFS with limits LDFS ==============================================
+            int initalimit = 1;
+            int LI[] = new int[N];
+            for (int i = 0; i < N; i++) {
+                LI[i] = 100;
+            }
+            System.out.println("-------------------");
+            for (int i = 0; i < 12; i++)// list of cities
+                System.out.println(retCity(i) + " city[" + i + "]");
+            System.out.println();
+            System.out.println("Enter Goal city: ");
+            goalCity = inp.nextInt();
+            int local = 100;
+            List<Integer> visitedListI = new ArrayList<Integer>();
+            LI[currPos] = 0;
+            visitedListI.add(currPos);
+            Stack<Integer> stackLI = new Stack<Integer>();
+            while (true) {
+                {
+                    for (int j = 0; j < N; j++) {
+                        if (G[currPos][j] == true && !visitedListI.contains(j)) {
+                            stackLI.push(j);
+                            LI[j] = LI[j] > LI[currPos] + 1 ? LI[currPos] + 1 : LI[j];
+                            initalimit = LI[j];
+                        }
+                    }
+                    if (stackLI.empty()) {
+                        System.out.println("Stack is empty");
+                        break;
+                    } else {
+                        local = stackLI.pop();
+                        if (local == goalCity) {
+                            System.out.println("-------------------");
+                            System.out.println("you've reached your goal !!");
+                            currPos = local;
+                            break;
+                        } else {
+                            visitedListI.add(local);
+                            currPos = local;
+                        }
+                    }
+                }
+            }
+            limit = 0;
+            while (limit != initalimit + 1) {
+                System.out.println("-------------------");
+                System.out.println("at lvl = " + limit);
+                for (int i = 0; i < N; i++) {
+                    if (LI[i] == limit) {
+                        System.out.println(retCity(i));
+                    }
+                }
+                limit++;
+            }
             HW5();
             break;
         } // closing switch block
-    } // closing HW5 function
+    } // closing TRA function
 
     public static void main(String[] args) {
         int cityChoice;
